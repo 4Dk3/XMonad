@@ -180,7 +180,7 @@ myKeys =
 
     -- Apps
       , ("M-c", spawn myTerminal)                                            -- Terminal
-      , ("M-w", spawn "firefox")                                                    -- Firefox
+      , ("M-w", spawn "brave")                                                    -- Brave
       , ("M-f", spawn "pcmanfm")                                                    -- File Manager
       , ("M-e", spawn "flatpak run com.spotify.Client")				    -- Music player (Spotify)
 
