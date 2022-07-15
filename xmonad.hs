@@ -5,6 +5,7 @@ import XMonad
 import System.IO (hPutStrLn)
 import System.Exit
 import qualified XMonad.StackSet as W
+import XMonad.Hooks.FloatNext
 
 -- Actions
 import XMonad.Actions.CycleWS (Direction1D(..), moveTo, shiftTo, WSType(..), nextScreen, prevScreen)
@@ -12,6 +13,7 @@ import XMonad.Actions.MouseResize
 import XMonad.Actions.WithAll (sinkAll, killAll)
 import XMonad.Actions.CopyWindow (kill1, wsContainingCopies, copyToAll, killAllOtherCopies)
 import XMonad.Actions.RotSlaves (rotSlavesDown, rotAllDown)
+import XMonad.Actions.FloatKeys (keysResizeWindow)
 
 -- Data
 import Data.Semigroup
@@ -146,6 +148,8 @@ myScratchPads =
     launchMocp = myTerminal ++ " -T ncmpcpp -e ncmpcpp"
     launchRang = myTerminal ++ " -T rangersp -e ranger"
 
+-- idk help
+
 ------------------------------------------------------------------------
 -- Custom Keys
 ------------------------------------------------------------------------
@@ -168,9 +172,10 @@ myKeys =
       , ("<Print>",                 spawn "scrot")                                  -- Screenshot
 
     -- System but with super key instead of Fn
-      , ("M-<F1>", 		    spawn "pamixer -t")
-      , ("M-<F2>",		    spawn "pamixer -d 5")
-      , ("M-<F3>",		    spawn "pamixer -i 5")
+      , ("M-<F1>", 		    spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle")
+      , ("M-<F2>",		    spawn "pactl set-sink-volume @DEFAULT_SINK@ -5%")
+      , ("M-<F3>",		    spawn "pactl set-sink-volume @DEFAULT_SINK@ +5%")
+      , ("M-<F4>",        spawn "pactl set-source-mute @DEFAULT_SOURCE@ toggle")
       , ("M-<F11>",		    spawn "light -U 5")
       , ("M-<F12>",		    spawn "light -A 5")
 
@@ -180,11 +185,13 @@ myKeys =
 
     -- Apps
       , ("M-c", spawn myTerminal)                                            -- Terminal
-      , ("M-w", spawn "brave")                                                    -- Brave
-      , ("M-f", spawn "pcmanfm")                                                    -- File Manager
+      , ("M-w", spawn "firefox")                                                    -- web
+      , ("M-f", spawn "thunar")                                                    -- File Manager
       , ("M-e", spawn "flatpak run com.spotify.Client")				    -- Music player (Spotify)
 
     -- Window navigation
+      , ("M-S-<Space>", withFocused $ windows . W.sink)
+      , ("M-r",                       toggleFloatAllNew)
       , ("M-d", sendMessage NextLayout)                                       -- Rotate through the available layout algorithms
       , ("M-<Left>", windows W.swapMaster)                                          -- Swap the focused window and the master window
       , ("M-<Up>", windows W.swapUp)                                                -- Swap the focused window with the previous windo
@@ -235,7 +242,7 @@ myManageHook = composeAll
 -- Startup Hooks -------------------------------------------------------
 ------------------------------------------------------------------------
 myStartupHook = do
-    spawnOnce "feh --bg-fill $HOME/Wallpapers/everforest-car.png"
+    spawnOnce "feh --bg-fill $HOME/Wallpapers/white-eva.jpg &"
     spawnOnce "picom -b -f --experimental-backends &"
     spawnOnce "dunst &"
     spawnOnce "$HOME/.config/polybar/launch.sh &"
@@ -252,8 +259,7 @@ myStartupHook = do
 main :: IO ()
 main = do
         xmonad . ewmhFullscreen $ ewmh def
-                { manageHook = myManageHook <+> manageDocks
-		-- , handleEventHook    = ewmhFullscreen
+          { manageHook = floatNextHook <+> myManageHook <+> manageDocks
                 , modMask            = mod4Mask
                 , layoutHook         = myLayoutHook
                 , workspaces         = myWorkspaces
