@@ -188,6 +188,7 @@ myKeys =
       , ("M-w", spawn "firefox")                                                    -- web
       , ("M-f", spawn "thunar")                                                    -- File Manager
       , ("M-e", spawn "flatpak run com.spotify.Client")				    -- Music player (Spotify)
+      , ("M-s", spawn "flameshot gui")
 
     -- Window navigation
       , ("M-S-<Space>", withFocused $ windows . W.sink)
@@ -242,9 +243,10 @@ myManageHook = composeAll
 -- Startup Hooks -------------------------------------------------------
 ------------------------------------------------------------------------
 myStartupHook = do
-    spawnOnce "feh --bg-fill $HOME/Wallpapers/white-eva.jpg &"
+    spawnOnce "feh --bg-fill $HOME/Wallpapers/rei-plain-43.jpg &"
     spawnOnce "picom -b -f --experimental-backends &"
     spawnOnce "dunst &"
+    spawnOnce "flameshot &"
     spawnOnce "$HOME/.config/polybar/launch.sh &"
     spawnOnce "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &"
 
