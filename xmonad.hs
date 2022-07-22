@@ -243,11 +243,11 @@ myManageHook = composeAll
 -- Startup Hooks -------------------------------------------------------
 ------------------------------------------------------------------------
 myStartupHook = do
-    spawnOnce "feh --bg-fill $HOME/Wallpapers/rei-plain-43.jpg &"
+    spawnOnce "feh --bg-fill $HOME/Wallpapers/pink-keyboard.jpg &"
     spawnOnce "picom -b -f --experimental-backends &"
     spawnOnce "dunst &"
     spawnOnce "flameshot &"
-    spawnOnce "$HOME/.config/polybar/launch.sh &"
+    spawnOnce "polybar &"
     spawnOnce "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &"
 
 -----------------------------------------------------------------------
