@@ -127,7 +127,7 @@ threeCol = renamed [Replace "Three"]
 ------------------------------------------------------------------------
 
 myWorkspaces :: [String]
-myWorkspaces = ["1", "2", "3", "4", "5", "6", "7"]
+myWorkspaces = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
 
 windowCount :: X (Maybe String)
 windowCount = gets $ Just . show . length . W.integrate' . W.stack . W.workspace . W.current . windowset
