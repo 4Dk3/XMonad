@@ -74,7 +74,7 @@ myClickJustFocuses = False
 -- Space between Tiling Windows
 ------------------------------------------------------------------------
 mySpacing :: Integer -> l a -> XMonad.Layout.LayoutModifier.ModifiedLayout Spacing l a
-mySpacing i = spacingRaw False (Border 15 5 5 5) True (Border 15 5 5 5) True
+mySpacing i = spacingRaw False (Border 20 5 5 5) True (Border 20 5 5 5) True
 
 ------------------------------------------------------------------------
 -- Layout Hook
@@ -162,9 +162,9 @@ myKeys =
       , ("M-S-q", io exitSuccess)                                                   -- Quits xmonad
 
     -- System
-      , ("<XF86AudioMute>",         spawn "pamixer -t")               -- Mute
-      , ("<XF86AudioRaiseVolume>",  spawn "pamixer -i 5")           -- Volume Up
-      , ("<XF86AudioLowerVolume>",  spawn "pamixer -d 5")           -- Volume Down
+      , ("<XF86AudioMute>",         spawn "pamixer -t")                             -- Mute
+      , ("<XF86AudioRaiseVolume>",  spawn "pamixer -i 5")                           -- Volume Up
+      , ("<XF86AudioLowerVolume>",  spawn "pamixer -d 5")                           -- Volume Down
       , ("<XF86AudioPlay>",         spawn "mpc toggle")                             -- ncmpcpp play/pause
       , ("<XF86AudioStop>",         spawn "mpc pause")                              -- ncmpcpp stop
       , ("<XF86AudioPrev>",         spawn "mpc prev")                               -- ncmpcpp previous
@@ -181,26 +181,26 @@ myKeys =
 
     -- Run Prompt
       , ("M-p", spawn "dmenu_run")                                                  -- Run Dmenu (rofi -show drun but with icons :D )
-      , ("M-<Space>", spawn "rofi -show drun -show-icons")                                            -- Rofi Launcher
+      , ("M-<Space>", spawn "rofi -show drun -show-icons")                          -- Rofi Launcher
 
     -- Apps
-      , ("M-c", spawn myTerminal)                                            -- Terminal
+      , ("M-c", spawn myTerminal)                                                   -- Terminal
       , ("M-w", spawn "firefox")                                                    -- web
-      , ("M-f", spawn "thunar")                                                    -- File Manager
-      , ("M-e", spawn "flatpak run com.spotify.Client")				    -- Music player (Spotify)
+      , ("M-f", spawn "thunar")                                                     -- File Manager
+      , ("M-e", spawn "flatpak run com.spotify.Client")				                      -- Music player (Spotify)
       , ("M-s", spawn "flameshot gui")
 
     -- Window navigation
-      , ("M-S-<Space>", withFocused $ windows . W.sink)
+      , ("M-S-<Space>", withFocused $ windows . W.sink)                             -- Toggle floating
       , ("M-r",                       toggleFloatAllNew)
-      , ("M-d", sendMessage NextLayout)                                       -- Rotate through the available layout algorithms
+      , ("M-d", sendMessage NextLayout)                                             -- Rotate through the available layout algorithms
       , ("M-<Left>", windows W.swapMaster)                                          -- Swap the focused window and the master window
       , ("M-<Up>", windows W.swapUp)                                                -- Swap the focused window with the previous windo
       , ("M-<Down>", windows W.swapDown)                                            -- Swap the focused window with the next window   
       , ("M-h", sendMessage (IncMasterN 1))
       , ("M-l", sendMessage (IncMasterN (-1)))
       , ("M-<Tab>", rotAllDown)                                                     -- Rotate all windows
-      , ("M-S-f", sendMessage (MT.Toggle NBFULL) >> sendMessage ToggleStruts)        -- Toggles full width
+      , ("M-S-f", sendMessage (MT.Toggle NBFULL) >> sendMessage ToggleStruts)       -- Toggles full width
       , ("M-l", toggleCopyToAll)                                                    -- Copy window to all workspaces
       , ("M-q", kill1)                                                              -- Quit the currently focused client
       , ("M-C-q", killAll)                                                          -- Quit all windows on current workspace
@@ -243,11 +243,12 @@ myManageHook = composeAll
 -- Startup Hooks -------------------------------------------------------
 ------------------------------------------------------------------------
 myStartupHook = do
-    spawnOnce "feh --bg-fill $HOME/Wallpapers/pink-keyboard.jpg &"
-    spawnOnce "picom -b -f --experimental-backends &"
+    spawnOnce "xrandr --output HDMI-1 --primary --mode 1920x1080 --rate 60.00"
+    spawnOnce "feh --bg-fill $HOME/Wallpapers/power-white-black.png &"
+    spawnOnce "picom -b &"
     spawnOnce "dunst &"
     spawnOnce "flameshot &"
-    spawnOnce "polybar &"
+    spawnOnce "~/.config/polybar/launch.sh &"
     spawnOnce "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &"
 
 -----------------------------------------------------------------------
